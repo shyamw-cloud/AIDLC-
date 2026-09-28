@@ -1,7 +1,4 @@
-from typing import Dict, Any
-
-from ai_sdlc.jira_mcp import JiraMCPClient
-from ai_sdlc.planner import Planner, SpecBuilder
+from ai_sdlc.tasks import TaskEngine
 
 
 class Orchestrator:
@@ -9,11 +6,13 @@ class Orchestrator:
         self.jira_client = jira_client or JiraMCPClient()
         self.spec_builder = SpecBuilder()
         self.planner = Planner()
+        self.task_engine = TaskEngine()
 
     def run(self, ticket_id: str) -> Dict[str, Any]:
         ticket = self.jira_client.fetch_ticket(ticket_id)
         spec = self.spec_builder.build(ticket)
         plan = self.planner.plan(spec)
+        tasks = self.task_engine.generate(spec)
 
         status_update = self.jira_client.update_issue_status(ticket_id, "In Progress")
 
@@ -25,6 +24,17 @@ class Orchestrator:
             },
             "spec": spec,
             "plan": plan,
+            "tasks": [
+                {
+                    "id": task.id,
+                    "title": task.title,
+                    "description": task.description,
+                    "dependencies": task.dependencies,
+                    "validation": task.validation,
+                    "effort": task.effort,
+                }
+                for task in tasks
+            ],
             "jira_status": status_update,
             "status": "ok",
         }
