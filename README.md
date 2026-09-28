@@ -1,22 +1,60 @@
-# AIDLC-
+# AIDLC- AI SDLC Framework
 
-A simple repository for testing AIDL definitions.
+This repository now includes a starter implementation for a skill-based, spec-driven AI SDLC workflow for GitHub Copilot.
 
-## Included
+The goal is to support a Jira-through-MCP development lifecycle:
+- fetch Jira tickets
+- create a structured specification
+- generate a task plan
+- implement code changes
+- validate output
+- create a pull request summary
 
-- `README.md` - project overview and usage notes
-- `test.aidl` - sample AIDL interface for basic validation
+## Repository structure
 
-## Sample AIDL
+- `ai_sdlc/` — Python framework skeleton
+- `tests/` — unit tests for the orchestration flow
+- `docs/` — architecture and workflow documentation
+- `.ai/` — spec and planning templates
+- `.github/copilot-instructions.md` — Copilot-specific guidance for this repo
 
-The repository includes a minimal interface file:
+## Quick start
 
-```aidl
-package com.example;
-
-interface TestService {
-    String getMessage();
-}
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python -m pytest -q
 ```
 
-This can be used as a starting point for an Android AIDL service or for experimenting with the AIDL compiler.
+## Example orchestration
+
+```python
+from ai_sdlc.orchestrator import Orchestrator
+
+orchestrator = Orchestrator()
+result = orchestrator.run("JIRA-1042")
+print(result["spec"]["summary"])
+print(result["plan"]) 
+```
+
+## Workflow
+
+1. Fetch Jira ticket via MCP
+2. Normalize the issue into a structured ticket model
+3. Generate a specification document
+4. Build the implementation plan from that spec
+5. Execute the declared tasks
+6. Validate build/test status
+7. Draft PR text and update Jira status
+
+## Current implementation
+
+This repo contains a working prototype framework with:
+- Jira/MCP-style ticket interface
+- spec generation from a ticket
+- planning from acceptance criteria
+- orchestrated execution flow
+- sample tests
+
+This is designed to be extended with actual Jira MCP integration and repository-specific skills.

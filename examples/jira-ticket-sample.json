@@ -1,0 +1,13 @@
+{
+  "key": "JIRA-1042",
+  "summary": "Add AI SDLC orchestration flow",
+  "description": "Build a framework to read Jira tasks through MCP, generate a spec, create a plan, and draft a PR summary.",
+  "acceptance_criteria": [
+    "Ticket is readable through MCP",
+    "Spec is generated before implementation",
+    "Plan is built from the spec",
+    "Validation is part of the plan"
+  ],
+  "priority": "high",
+  "labels": ["ai", "jaira", "mcp", "sdlc"]
+}
